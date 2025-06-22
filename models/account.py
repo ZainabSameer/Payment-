@@ -1,0 +1,15 @@
+from sqlalchemy import Column, Integer, Float, ForeignKey, String
+from sqlalchemy.orm import relationship
+from .base import BaseModel  # Ensure this is your declarative base
+from .user import UserModel
+
+
+class AccountModel(BaseModel):
+    __tablename__ = 'accounts'
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    balance = Column(Float, default=0.00)
+    currency = Column(String(3), default="USD")
+
+    user = relationship("UserModel", back_populates="accounts")  
