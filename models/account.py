@@ -1,8 +1,6 @@
 from sqlalchemy import Column, Integer, Float, ForeignKey, String
 from sqlalchemy.orm import relationship
-from .base import BaseModel  # Ensure this is your declarative base
-from .user import UserModel
-
+from .base import BaseModel
 
 class AccountModel(BaseModel):
     __tablename__ = 'accounts'
