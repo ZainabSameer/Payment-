@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime , Boolean
 from sqlalchemy.orm import relationship
 from .base import BaseModel
 from passlib.context import CryptContext
@@ -13,8 +13,9 @@ class UserModel(BaseModel):
     username = Column(String(255), unique=True, nullable=False)
     email = Column(String(255), unique=True, nullable=False)
     password_hash = Column(String(255), nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, onupdate=datetime.utcnow)  
+    is_admin = Column(Boolean, nullable=False, default=False) 
+    #created_at = Column(DateTime, default=datetime.utcnow)
+    #updated_at = Column(DateTime, onupdate=datetime.utcnow)  
 
     
     accounts = relationship("AccountModel", back_populates="user")

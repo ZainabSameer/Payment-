@@ -9,9 +9,9 @@ class UserSchema(BaseModel):
     username: str
     email: str
     password:str
-    #is_admin: Optional[bool] = False
+    is_admin: bool = False
     created_at: datetime
-    updated_at: Optional[datetime] = None
+    #updated_at: Optional[datetime] = None
 
 
     class Config:
