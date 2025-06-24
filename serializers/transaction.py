@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from datetime import datetime
 
+
 class TransactionCreate(BaseModel):
     recipient_id: int
     amount: float
@@ -10,6 +11,9 @@ class TransactionSchema(BaseModel):
     sender_id: int
     recipient_id: int
     amount: float
+    created_at: datetime
+    direction: str  
+
 
 
     class Config:

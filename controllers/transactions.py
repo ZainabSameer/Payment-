@@ -26,7 +26,6 @@ def send_money(
     if not sender_account or sender_account.balance < data.amount:
         raise HTTPException(status_code=400, detail="Insufficient balance")
 
-    # Perform transfer
     sender_account.balance -= data.amount
     recipient_account.balance += data.amount
 
@@ -46,9 +45,21 @@ def get_transaction_history(
     db: Session = Depends(get_db),
     current_user: UserModel = Depends(get_current_user)
 ):
-    transactions = db.query(TransactionModel).filter(
+    raw_transactions = db.query(TransactionModel).filter(
         (TransactionModel.sender_id == current_user.id) |
         (TransactionModel.recipient_id == current_user.id)
     ).order_by(TransactionModel.created_at.desc()).all()
 
-    return transactions
+    result = []
+    for z in raw_transactions:
+        direction = "sent" if z.sender_id == current_user.id else "received"
+        result.append({
+            "id": z.id,
+            "sender_id": z.sender_id,
+            "recipient_id": z.recipient_id,
+            "amount": z.amount,
+            "created_at": z.created_at,
+            "direction": direction
+        })
+
+    return result
