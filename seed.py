@@ -1,9 +1,11 @@
 from sqlalchemy.orm import Session, sessionmaker
 from models.account import AccountModel
 from models.user import UserModel
+from models.transaction import TransactionModel
 from models.base import Base
 from data.user_data import user_list
-from data.account_data import account_list
+from data.account_data import accounts_list
+from data.transaction_data import transaction_list
 from config.environment import db_URI
 from sqlalchemy import create_engine
 
@@ -21,8 +23,14 @@ try:
     db.add_all(user_list)
     db.commit()
 
-    db.add_all(account_list)
+    db.add_all(accounts_list)
     db.commit()
+
+
+
+    db.add_all(transaction_list)
+    db.commit()
+
 
     db.close()
 
