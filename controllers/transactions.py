@@ -38,7 +38,7 @@ def send_money(
     db.add(transaction)
     db.commit()
     db.refresh(transaction)
-    return transaction
+    #return transaction
 
 @router.get("/transactions/history", response_model=List[TransactionSchema])
 def get_transaction_history(
@@ -59,7 +59,8 @@ def get_transaction_history(
             "recipient_id": z.recipient_id,
             "amount": z.amount,
             "created_at": z.created_at,
-            "direction": direction
+            #"direction": direction
+            "direction": "sent"
         })
 
     return result
