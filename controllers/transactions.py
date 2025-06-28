@@ -63,3 +63,20 @@ def get_transaction_history(
         })
 
     return result
+
+
+@router.get("/transactions/{user_id}", response_model=List[TransactionSchema])
+def view_user_transactions(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Access denied: admin only")
+
+    transactions = db.query(TransactionModel).filter(
+        (TransactionModel.sender_id == user_id) |
+        (TransactionModel.recipient_id == user_id)
+    ).order_by(TransactionModel.created_at.desc()).all()
+
+    return transactions 
