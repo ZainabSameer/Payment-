@@ -12,7 +12,6 @@ class TransactionSchema(BaseModel):
     recipient_id: int
     amount: float
     created_at: datetime
-    direction: str  
 
 
 
