@@ -1,14 +1,14 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__ + "/.."))) 
-
-from main import app
+import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy.orm import Session
+from models.user import UserModel
+from tests.lib import login
+from main import app
 
 client = TestClient(app)
 
 
-def test_register_user_success():
+def test_register_user_success(test_app: TestClient, override_get_db):
     response = client.post("/api/register", json={
         "username": "zainab_test1",
         "email": "zainab_test1@kpmg.com",
@@ -21,7 +21,7 @@ def test_register_user_success():
     assert data["username"] == "zainab_test1"
     assert data["email"] == "zainab_test1@kpmg.com"
 
-def test_register_user_duplicate():
+def test_register_user_duplicate(test_app: TestClient, override_get_db):
     client.post("/api/register", json={
         "username": "zainab_d",
         "email": "zainab_d@kpmg.com",
